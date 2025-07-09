@@ -18,7 +18,6 @@ def get_monday():
     monday = today - timedelta(days=today.weekday())
     return monday.strftime('%Y-%m-%d')
 
-# 🔢 Тук е новата функция:
 def get_total_chests():
     monday = get_monday()
     conn = get_db_connection()
@@ -47,7 +46,6 @@ def summary():
     conn.close()
     return jsonify([dict(row) for row in data])
 
-# 🔹 Нов route за тоталите по тип
 @app.route("/total")
 def total():
     return jsonify(get_total_chests())
@@ -95,6 +93,16 @@ def update():
     conn.commit()
     conn.close()
     return jsonify({"status": "OK"}), 200
+
+# 🔥 Тук е новият маршрут за нулиране на базата
+@app.route("/reset", methods=["POST"])
+def reset():
+    conn = get_db_connection()
+    conn.execute("DELETE FROM chests")
+    conn.execute("DELETE FROM players")
+    conn.commit()
+    conn.close()
+    return jsonify({"status": "Database reset successful"}), 200
 
 if __name__ == "__main__":
     import os
