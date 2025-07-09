@@ -1,9 +1,10 @@
-
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 import sqlite3
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
+CORS(app)  # 🔥 Това добавя CORS за всички маршрути
 
 DB_PATH = "chests.db"
 
@@ -80,6 +81,5 @@ def update():
 
 if __name__ == "__main__":
     import os
-port = int(os.environ.get("PORT", 5000))
-app.run(host="0.0.0.0", port=port)
-
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
