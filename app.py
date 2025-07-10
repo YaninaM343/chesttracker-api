@@ -94,7 +94,6 @@ def update():
     conn.close()
     return jsonify({"status": "OK"}), 200
 
-# 🔥 Тук е новият маршрут за нулиране на базата
 @app.route("/reset", methods=["POST"])
 def reset():
     conn = get_db_connection()
@@ -103,8 +102,3 @@ def reset():
     conn.commit()
     conn.close()
     return jsonify({"status": "Database reset successful"}), 200
-
-if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
