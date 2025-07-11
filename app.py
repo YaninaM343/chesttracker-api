@@ -1,10 +1,14 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
-import sqlite3
-from datetime import datetime, timedelta
+from flask import Flask, jsonify, request  
+from flask_cors import CORS  
+import sqlite3  
+from datetime import datetime, timedelta  
+import os  
 
-app = Flask(__name__)
-CORS(app)
+app = Flask(__name__)  
+# Разрешаваме CORS само за фронт-енд домейна  
+CORS(app, resources={  
+    r"/*": {"origins": "https://wng.yanisworkshop.com"}  
+})  
 
 DB_PATH = "chests.db"
 
@@ -94,8 +98,8 @@ def update():
     conn.close()
     return jsonify({"status": "OK"}), 200
 
-# 🔥 Тук е новият маршрут за нулиране на базата
-@app.route("/reset", methods=["POST"])
+# 🔥 Нов маршрут за нулиране на базата
+d@pp.route("/reset", methods=["POST"])
 def reset():
     conn = get_db_connection()
     conn.execute("DELETE FROM chests")
@@ -105,6 +109,5 @@ def reset():
     return jsonify({"status": "Database reset successful"}), 200
 
 if __name__ == "__main__":
-    import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
