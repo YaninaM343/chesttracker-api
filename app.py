@@ -109,15 +109,6 @@ def update():
     conn.close()
     return jsonify({"status": "OK"}), 200
 
-@app.route("/reset", methods=["POST"])
-def reset():
-    conn = get_db_connection()
-    conn.execute("DELETE FROM chests")
-    conn.execute("DELETE FROM players")
-    conn.commit()
-    conn.close()
-    return jsonify({"status": "Database reset successful"}), 200
-
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
